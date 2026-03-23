@@ -1,0 +1,112 @@
+{
+  "goals": {
+    "1_week": "",
+    "1_month": "",
+    "6_months": "",
+    "1_year": "",
+    "5_year": "",
+    "10_year": ""
+  },
+  "want_to_change": "",
+  "want_to_accomplish": "",
+  "weekly_habits": [
+    "Wake up on time",
+    "Read / Study",
+    "Exercise / Move",
+    "Drink enough water",
+    "No social media before study",
+    "Write 1 good thing"
+  ],
+  "weekly_log": {
+    "2026-W11": {
+      "Wake up on time": [],
+      "Read / Study": [],
+      "Exercise / Move": [],
+      "Drink enough water": [],
+      "No social media before study": [],
+      "Write 1 good thing": []
+    },
+    "2026-W12": {
+      "Wake up on time": [],
+      "Read / Study": [],
+      "Exercise / Move": [],
+      "Drink enough water": [],
+      "No social media before study": [],
+      "Write 1 good thing": []
+    }
+  },
+  "challenge": {
+    "habit": "",
+    "start_date": "2026-03-20",
+    "completed_days": []
+  },
+  "wheel": {
+    "Study Habits": 5,
+    "Sleep & Health": 5,
+    "Mindset & Focus": 5,
+    "Confidence": 5,
+    "Time Management": 5,
+    "Relationships": 5
+  },
+  "wheel_goals": {
+    "Study Habits": 7,
+    "Sleep & Health": 7,
+    "Mindset & Focus": 7,
+    "Confidence": 7,
+    "Time Management": 7,
+    "Relationships": 7
+  },
+  "timebox": {
+    "2026-03-23": {
+      "priorities": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "brain_dump": "",
+      "slots": {
+        "05:00": "",
+        "05:30": "",
+        "06:00": "",
+        "06:30": "",
+        "07:00": "",
+        "07:30": "",
+        "08:00": "",
+        "08:30": "",
+        "09:00": "",
+        "09:30": "",
+        "10:00": "",
+        "10:30": "",
+        "11:00": "",
+        "11:30": "",
+        "12:00": "",
+        "12:30": "",
+        "13:00": "",
+        "13:30": "",
+        "14:00": "",
+        "14:30": "",
+        "15:00": "",
+        "15:30": "",
+        "16:00": "",
+        "16:30": "",
+        "17:00": "",
+        "17:30": "",
+        "18:00": "",
+        "18:30": "",
+        "19:00": "",
+        "19:30": "",
+        "20:00": "",
+        "20:30": "",
+        "21:00": "",
+        "21:30": "",
+        "22:00": "",
+        "22:30": "",
+        "23:00": "",
+        "23:30": ""
+      }
+    }
+  }
+}
