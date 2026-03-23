@@ -104,13 +104,19 @@ st.markdown("""
 
     /* ── Cards ── */
     .card {
-        background: #ffffff; border-radius: 12px; padding: 14px 16px;
+        background: #f8f9ff; border-radius: 12px; padding: 14px 16px;
         box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 12px;
         border-left: 5px solid #667eea; font-size: 0.95rem;
+        color: #1a1a2e !important;
     }
-    .card-green  { border-left-color: #38b2ac; }
-    .card-orange { border-left-color: #ed8936; }
-    .card-red    { border-left-color: #e53e3e; }
+    .card * { color: #1a1a2e !important; }
+    .card b, .card strong { color: #1a1a2e !important; font-weight: 700; }
+    .card i { color: #3a3a5e !important; }
+    .card-green  { border-left-color: #38b2ac; background: #f0fafa; }
+    .card-orange { border-left-color: #ed8936; background: #fff8f0; }
+    .card-red    { border-left-color: #e53e3e; background: #fff5f5; }
+    .habit-row { color: #1a1a2e !important; }
+    .habit-row * { color: #1a1a2e !important; }
 
     /* ── Stat boxes — stack 2x2 on mobile ── */
     .stat-grid {
