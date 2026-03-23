@@ -3,6 +3,8 @@ import json
 import os
 from datetime import date, datetime, timedelta
 import plotly.graph_objects as go
+import gspread
+from google.oauth2.service_account import Credentials
 
 # ── Config ──────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -12,27 +14,63 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-DATA_FILE = "habit_data.json"
+SHEET_NAME = "MyGrowth Habit Tracker"
+SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+DEFAULT_DATA = {
+    "goals": {"1_week": "", "1_month": "", "6_months": "", "1_year": "", "5_year": "", "10_year": ""},
+    "want_to_change": "",
+    "want_to_accomplish": "",
+    "weekly_habits": ["Wake up on time", "Read / Study", "Exercise / Move", "Drink enough water", "No social media before study", "Write 1 good thing"],
+    "weekly_log": {},
+    "challenge": {"habit": "", "start_date": "", "completed_days": []},
+    "wheel": {"Study Habits": 5, "Sleep & Health": 5, "Mindset & Focus": 5, "Confidence": 5, "Time Management": 5, "Relationships": 5},
+    "wheel_goals": {"Study Habits": 7, "Sleep & Health": 7, "Mindset & Focus": 7, "Confidence": 7, "Time Management": 7, "Relationships": 7},
+    "timebox": {},
+}
+
+# ── Google Sheets connection ──────────────────────────────────────────────────
+@st.cache_resource
+def get_sheet():
+    try:
+        creds = Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"], scopes=SCOPES
+        )
+        client = gspread.authorize(creds)
+        sheet = client.open(SHEET_NAME).sheet1
+        return sheet
+    except Exception as e:
+        st.error(f"Could not connect to Google Sheets: {e}")
+        return None
 
 # ── Data helpers ─────────────────────────────────────────────────────────────
 def load_data():
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r") as f:
+    # Try Google Sheets first
+    sheet = get_sheet()
+    if sheet:
+        try:
+            val = sheet.cell(1, 1).value
+            if val:
+                return json.loads(val)
+        except Exception:
+            pass
+    # Fallback to local file
+    if os.path.exists("habit_data.json"):
+        with open("habit_data.json", "r") as f:
             return json.load(f)
-    return {
-        "goals": {"1_week": "", "1_month": "", "6_months": "", "1_year": "", "5_year": "", "10_year": ""},
-        "want_to_change": "",
-        "want_to_accomplish": "",
-        "weekly_habits": ["Wake up on time", "Read / Study", "Exercise / Move", "Drink enough water", "No social media before study", "Write 1 good thing"],
-        "weekly_log": {},
-        "challenge": {"habit": "", "start_date": "", "completed_days": []},
-        "wheel": {"Study Habits": 5, "Sleep & Health": 5, "Mindset & Focus": 5, "Confidence": 5, "Time Management": 5, "Relationships": 5},
-        "wheel_goals": {"Study Habits": 7, "Sleep & Health": 7, "Mindset & Focus": 7, "Confidence": 7, "Time Management": 7, "Relationships": 7},
-        "timebox": {},
-    }
+    import copy
+    return copy.deepcopy(DEFAULT_DATA)
 
 def save_data(data):
-    with open(DATA_FILE, "w") as f:
+    # Save to Google Sheets
+    sheet = get_sheet()
+    if sheet:
+        try:
+            sheet.update("A1", [[json.dumps(data)]])
+        except Exception as e:
+            st.warning(f"Cloud save failed: {e}. Saving locally instead.")
+    # Always save locally as backup
+    with open("habit_data.json", "w") as f:
         json.dump(data, f, indent=2)
 
 # ── Custom CSS ────────────────────────────────────────────────────────────────
