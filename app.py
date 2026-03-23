@@ -76,6 +76,30 @@ def save_data(data):
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+    /* ── Global text fix — works on both light and dark themes ── */
+    .stApp { background-color: #f0f2f6 !important; }
+    .stApp, .stApp p, .stApp li, .stApp label,
+    .stApp span, .stApp div { color: #1a1a2e !important; }
+    .stMarkdown, .stMarkdown p { color: #1a1a2e !important; }
+    .stTextInput label, .stTextArea label,
+    .stSlider label, .stSelectbox label,
+    .stDateInput label, .stRadio label { color: #1a1a2e !important; }
+    .stCaption, [data-testid="stCaptionContainer"] p { color: #555577 !important; }
+    h1, h2, h3, h4 { color: #1a1a2e !important; }
+    /* Fix metric text */
+    [data-testid="stMetricValue"] { color: #1a1a2e !important; }
+    [data-testid="stMetricLabel"] { color: #555577 !important; }
+    [data-testid="stMetricDelta"] { color: #38b2ac !important; }
+    /* Fix expander */
+    .streamlit-expanderHeader { color: #1a1a2e !important; }
+    /* Fix info/success/warning boxes */
+    .stAlert p { color: #1a1a2e !important; }
+    /* Fix sidebar text back to light since sidebar is dark */
+    [data-testid="stSidebar"] *,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] span { color: #e0e0e0 !important; }
+
     /* ── Mobile-first base ── */
     .main .block-container {
         padding: 0.8rem 0.8rem 2rem 0.8rem !important;
