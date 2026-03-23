@@ -38,38 +38,117 @@ def save_data(data):
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+    /* ── Mobile-first base ── */
+    .main .block-container {
+        padding: 0.8rem 0.8rem 2rem 0.8rem !important;
+        max-width: 100% !important;
+    }
+
+    /* ── Sidebar ── */
     [data-testid="stSidebar"] { background: #1a1a2e; }
     [data-testid="stSidebar"] * { color: #e0e0e0 !important; }
-    [data-testid="stSidebar"] .stRadio label { font-size: 1rem; padding: 4px 0; }
+    [data-testid="stSidebar"] .stRadio label {
+        font-size: 1.1rem; padding: 8px 4px; display: block;
+    }
+
+    /* ── Section headers ── */
     .section-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white; padding: 16px 24px; border-radius: 12px;
-        margin-bottom: 20px; font-size: 1.4rem; font-weight: 700;
+        color: white; padding: 14px 18px; border-radius: 12px;
+        margin-bottom: 16px; font-size: 1.15rem; font-weight: 700;
+        line-height: 1.3;
     }
+    .tb-header {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: white; padding: 14px 18px; border-radius: 12px;
+        margin-bottom: 16px; font-size: 1.15rem; font-weight: 700;
+    }
+
+    /* ── Cards ── */
     .card {
-        background: #ffffff; border-radius: 12px; padding: 20px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 16px;
-        border-left: 5px solid #667eea;
+        background: #ffffff; border-radius: 12px; padding: 14px 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 12px;
+        border-left: 5px solid #667eea; font-size: 0.95rem;
     }
     .card-green  { border-left-color: #38b2ac; }
     .card-orange { border-left-color: #ed8936; }
     .card-red    { border-left-color: #e53e3e; }
+
+    /* ── Stat boxes — stack 2x2 on mobile ── */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
     .stat-box {
         background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 12px; padding: 16px; text-align: center; color: white;
+        border-radius: 12px; padding: 14px 8px;
+        text-align: center; color: white;
     }
-    .stat-box .num { font-size: 2.2rem; font-weight: 800; }
-    .stat-box .lbl { font-size: 0.85rem; opacity: 0.85; }
-    .day-btn-done   { background:#38b2ac!important; color:white!important; border-radius:8px; }
-    .day-btn-undone { background:#f0f0f0!important; color:#555!important; border-radius:8px; }
-    .streak-fire { font-size:1.6rem; }
-    div[data-testid="column"] { padding: 4px; }
-    .time-row-hour { background: #edf2f7; border-radius: 6px; padding: 4px 8px; font-weight: 700; color: #2d3748; font-size:0.9rem; }
-    .time-row-half { background: #f7fafc; border-radius: 6px; padding: 4px 8px; color: #718096; font-size:0.85rem; }
-    .tb-header {
-        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-        color: white; padding: 16px 24px; border-radius: 12px;
-        margin-bottom: 20px; font-size: 1.4rem; font-weight: 700;
+    .stat-box .num { font-size: 1.7rem; font-weight: 800; line-height: 1.1; }
+    .stat-box .lbl { font-size: 0.75rem; opacity: 0.9; margin-top: 4px; }
+
+    /* ── Buttons — bigger touch targets on mobile ── */
+    .stButton > button {
+        min-height: 44px !important;
+        font-size: 1rem !important;
+        border-radius: 8px !important;
+        width: 100%;
+    }
+
+    /* ── Column padding ── */
+    div[data-testid="column"] { padding: 3px !important; }
+
+    /* ── Inputs ── */
+    .stTextInput input, .stTextArea textarea {
+        font-size: 1rem !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Time planner ── */
+    .time-row-hour {
+        background: #edf2f7; border-radius: 6px; padding: 4px 6px;
+        font-weight: 700; color: #2d3748; font-size: 0.78rem;
+        white-space: nowrap;
+    }
+    .time-row-half {
+        background: #f7fafc; border-radius: 6px; padding: 4px 6px;
+        color: #718096; font-size: 0.75rem; white-space: nowrap;
+    }
+
+    /* ── Habit tracker rows ── */
+    .habit-row {
+        background: #f8f9ff; border-radius: 10px; padding: 10px 12px;
+        margin-bottom: 8px; border-left: 4px solid #667eea;
+        font-size: 0.95rem;
+    }
+
+    /* ── 30-day calendar — tighter on mobile ── */
+    div[data-testid="column"] .stButton > button {
+        padding: 6px 2px !important;
+        font-size: 0.78rem !important;
+        min-height: 40px !important;
+    }
+
+    /* ── Metrics ── */
+    [data-testid="stMetric"] {
+        background: #f8f9ff; border-radius: 10px;
+        padding: 10px 12px !important;
+    }
+
+    /* ── Streamlit default spacer reduction ── */
+    .element-container { margin-bottom: 4px !important; }
+    h1 { font-size: 1.5rem !important; }
+    h2 { font-size: 1.2rem !important; }
+    h3 { font-size: 1.05rem !important; }
+
+    /* ── Responsive: wider screens get more padding ── */
+    @media (min-width: 768px) {
+        .main .block-container { padding: 1.5rem 2rem 2rem 2rem !important; }
+        .stat-box .num { font-size: 2.2rem; }
+        .stat-box .lbl { font-size: 0.85rem; }
+        .section-header { font-size: 1.4rem; padding: 16px 24px; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -113,57 +192,53 @@ if page == "🏠 Dashboard":
     today_done = sum(1 for h in habits if today_key in weekly_log.get(h, []))
     challenge_done = len(d["challenge"]["completed_days"])
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.markdown(f'<div class="stat-box"><div class="num">{today_done}/{len(habits)}</div><div class="lbl">Today\'s Habits</div></div>', unsafe_allow_html=True)
-    with col2:
-        pct = int(completed_week / total_possible * 100) if total_possible else 0
-        st.markdown(f'<div class="stat-box"><div class="num">{pct}%</div><div class="lbl">This Week</div></div>', unsafe_allow_html=True)
-    with col3:
-        st.markdown(f'<div class="stat-box"><div class="num">{challenge_done}/30</div><div class="lbl">30-Day Challenge</div></div>', unsafe_allow_html=True)
-    with col4:
-        avg_wheel = int(sum(d["wheel"].values()) / len(d["wheel"]))
-        st.markdown(f'<div class="stat-box"><div class="num">{avg_wheel}/10</div><div class="lbl">Avg Growth Score</div></div>', unsafe_allow_html=True)
+    pct = int(completed_week / total_possible * 100) if total_possible else 0
+    avg_wheel = int(sum(d["wheel"].values()) / len(d["wheel"]))
+    st.markdown(f'''
+    <div class="stat-grid">
+        <div class="stat-box"><div class="num">{today_done}/{len(habits)}</div><div class="lbl">Today's Habits</div></div>
+        <div class="stat-box"><div class="num">{pct}%</div><div class="lbl">This Week</div></div>
+        <div class="stat-box"><div class="num">{challenge_done}/30</div><div class="lbl">30-Day Challenge</div></div>
+        <div class="stat-box"><div class="num">{avg_wheel}/10</div><div class="lbl">Growth Score</div></div>
+    </div>
+    ''', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    col_l, col_r = st.columns(2)
+    # Single column layout — stacks naturally on mobile
+    st.markdown("### ✅ Today's Habits")
+    for habit in habits:
+        done = today_key in weekly_log.get(habit, [])
+        icon = "✅" if done else "⬜"
+        st.markdown(f'<div class="habit-row">{icon} {habit}</div>', unsafe_allow_html=True)
 
-    with col_l:
-        st.markdown("### ✅ Today's Habits")
-        for habit in habits:
-            done = today_key in weekly_log.get(habit, [])
-            icon = "✅" if done else "⬜"
-            st.markdown(f"{icon} {habit}")
+    st.markdown("### 🎯 Nearest Goals")
+    if d["goals"]["1_week"]:
+        st.markdown(f'<div class="card card-green">📅 <b>1 Week:</b> {d["goals"]["1_week"]}</div>', unsafe_allow_html=True)
+    if d["goals"]["1_month"]:
+        st.markdown(f'<div class="card card-orange">📅 <b>1 Month:</b> {d["goals"]["1_month"]}</div>', unsafe_allow_html=True)
 
-        st.markdown("### 🎯 Nearest Goals")
-        if d["goals"]["1_week"]:
-            st.markdown(f'<div class="card card-green">📅 <b>1 Week:</b> {d["goals"]["1_week"]}</div>', unsafe_allow_html=True)
-        if d["goals"]["1_month"]:
-            st.markdown(f'<div class="card card-orange">📅 <b>1 Month:</b> {d["goals"]["1_month"]}</div>', unsafe_allow_html=True)
+    st.markdown("### 🔥 30-Day Challenge Progress")
+    ch = d["challenge"]
+    if ch["habit"]:
+        st.markdown(f"**Habit:** {ch['habit']}")
+        progress = len(ch["completed_days"]) / 30
+        st.progress(progress)
+        st.caption(f"{len(ch['completed_days'])} / 30 days completed")
+    else:
+        st.info("No challenge set yet. Go to 🔥 30-Day Challenge to start one!")
 
-    with col_r:
-        st.markdown("### 🔥 30-Day Challenge Progress")
-        ch = d["challenge"]
-        if ch["habit"]:
-            st.markdown(f"**Habit:** {ch['habit']}")
-            progress = len(ch["completed_days"]) / 30
-            st.progress(progress)
-            st.caption(f"{len(ch['completed_days'])} / 30 days completed")
-        else:
-            st.info("No challenge set yet. Go to 🔥 30-Day Challenge to start one!")
-
-        st.markdown("### 💡 Today's Motivation")
-        quotes = [
-            "You don't have to be great to start. But you have to start to be great.",
-            "Small steps every day lead to big changes over time.",
-            "Don't break the chain. Show up for yourself today.",
-            "Every habit you keep is a vote for the person you want to become.",
-            "Progress, not perfection.",
-        ]
-        import hashlib
-        idx = int(hashlib.md5(today_key.encode()).hexdigest(), 16) % len(quotes)
-        st.markdown(f'<div class="card">💬 <i style="color:#38b2ac;">"{quotes[idx]}"</i></div>', unsafe_allow_html=True)
+    st.markdown("### 💡 Today's Motivation")
+    quotes = [
+        "You don't have to be great to start. But you have to start to be great.",
+        "Small steps every day lead to big changes over time.",
+        "Don't break the chain. Show up for yourself today.",
+        "Every habit you keep is a vote for the person you want to become.",
+        "Progress, not perfection.",
+    ]
+    import hashlib
+    idx = int(hashlib.md5(today_key.encode()).hexdigest(), 16) % len(quotes)
+    st.markdown(f'<div class="card">💬 <i>"{quotes[idx]}"</i></div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════
 # PAGE: GOAL SETTING
@@ -171,26 +246,20 @@ if page == "🏠 Dashboard":
 elif page == "🎯 Goal Setting":
     st.markdown('<div class="section-header">🎯 Goal Setting — Know Where You\'re Going</div>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        d["want_to_change"] = st.text_area("One thing I really want to change about myself:", value=d["want_to_change"], height=80)
-    with col2:
-        d["want_to_accomplish"] = st.text_area("What do I want to accomplish?", value=d["want_to_accomplish"], height=80)
+    d["want_to_change"] = st.text_area("One thing I really want to change about myself:", value=d["want_to_change"], height=80)
+    d["want_to_accomplish"] = st.text_area("What do I want to accomplish?", value=d["want_to_accomplish"], height=80)
 
     st.markdown("### 🗓️ My Goals by Timeframe")
     timeframes = [
-        ("1_week", "📅 1 Week Goal", "card-green"),
-        ("1_month", "📅 1 Month Goal", "card-green"),
-        ("6_months", "📆 6 Months Goal", "card-orange"),
-        ("1_year", "📆 1 Year Goal", "card-orange"),
-        ("5_year", "🗓️ 5 Year Goal", "card-red"),
-        ("10_year", "🗓️ 10 Year Goal", "card-red"),
+        ("1_week", "📅 1 Week Goal"),
+        ("1_month", "📅 1 Month Goal"),
+        ("6_months", "📆 6 Months Goal"),
+        ("1_year", "📆 1 Year Goal"),
+        ("5_year", "🗓️ 5 Year Goal"),
+        ("10_year", "🗓️ 10 Year Goal"),
     ]
-    col_a, col_b = st.columns(2)
-    for i, (key, label, cls) in enumerate(timeframes):
-        col = col_a if i % 2 == 0 else col_b
-        with col:
-            d["goals"][key] = st.text_input(label, value=d["goals"][key], key=f"goal_{key}")
+    for key, label in timeframes:
+        d["goals"][key] = st.text_input(label, value=d["goals"][key], key=f"goal_{key}")
 
     if st.button("💾 Save Goals", type="primary"):
         save_data(d)
@@ -385,55 +454,48 @@ elif page == "🌀 Wheel of Growth":
         "Relationships": "Am I kind, supportive, and a good friend/family member?",
     }
 
-    col1, col2 = st.columns([1, 1])
+    # Radar chart first — looks great on mobile
+    st.markdown("### 🕸️ Your Growth Radar")
+    categories = list(areas.keys())
+    current_vals = [d["wheel"][a] for a in categories]
+    goal_vals = [d["wheel_goals"][a] for a in categories]
 
-    with col1:
-        st.markdown("### 🎚️ Rate Yourself (1-10)")
-        for area, question in areas.items():
-            st.caption(f"*{question}*")
-            col_s, col_g = st.columns(2)
-            with col_s:
-                d["wheel"][area] = st.slider(f"{area} — Current", 1, 10, d["wheel"][area], key=f"wheel_{area}")
-            with col_g:
-                d["wheel_goals"][area] = st.slider(f"{area} — Goal (4 wks)", 1, 10, d["wheel_goals"][area], key=f"goal_{area}")
-            st.markdown("---")
+    fig = go.Figure()
+    fig.add_trace(go.Scatterpolar(
+        r=current_vals + [current_vals[0]],
+        theta=categories + [categories[0]],
+        fill='toself', name='Current',
+        line=dict(color='#667eea', width=2),
+        fillcolor='rgba(102,126,234,0.25)',
+    ))
+    fig.add_trace(go.Scatterpolar(
+        r=goal_vals + [goal_vals[0]],
+        theta=categories + [categories[0]],
+        fill='toself', name='4-Week Goal',
+        line=dict(color='#38b2ac', width=2, dash='dash'),
+        fillcolor='rgba(56,178,172,0.1)',
+    ))
+    fig.update_layout(
+        polar=dict(radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(size=10))),
+        showlegend=True, height=350,
+        margin=dict(t=20, b=20, l=20, r=20),
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    with col2:
-        st.markdown("### 🕸️ Your Growth Radar")
-        categories = list(areas.keys())
-        current_vals = [d["wheel"][a] for a in categories]
-        goal_vals = [d["wheel_goals"][a] for a in categories]
+    avg_now = round(sum(current_vals) / len(current_vals), 1)
+    avg_goal = round(sum(goal_vals) / len(goal_vals), 1)
+    st.metric("Average Score Now", f"{avg_now} / 10", delta=f"Goal: {avg_goal}")
 
-        fig = go.Figure()
-        fig.add_trace(go.Scatterpolar(
-            r=current_vals + [current_vals[0]],
-            theta=categories + [categories[0]],
-            fill='toself',
-            name='Current',
-            line=dict(color='#667eea', width=2),
-            fillcolor='rgba(102,126,234,0.25)',
-        ))
-        fig.add_trace(go.Scatterpolar(
-            r=goal_vals + [goal_vals[0]],
-            theta=categories + [categories[0]],
-            fill='toself',
-            name='4-Week Goal',
-            line=dict(color='#38b2ac', width=2, dash='dash'),
-            fillcolor='rgba(56,178,172,0.1)',
-        ))
-        fig.update_layout(
-            polar=dict(radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(size=10))),
-            showlegend=True,
-            height=450,
-            margin=dict(t=30, b=30),
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-        avg_now = round(sum(current_vals) / len(current_vals), 1)
-        avg_goal = round(sum(goal_vals) / len(goal_vals), 1)
-        st.metric("Average Score Now", f"{avg_now} / 10", delta=f"Goal: {avg_goal}")
+    st.markdown("### 🎚️ Rate Yourself (1-10)")
+    for area, question in areas.items():
+        st.caption(f"*{question}*")
+        col_s, col_g = st.columns(2)
+        with col_s:
+            d["wheel"][area] = st.slider(f"{area} — Now", 1, 10, d["wheel"][area], key=f"wheel_{area}")
+        with col_g:
+            d["wheel_goals"][area] = st.slider(f"Goal (4wks)", 1, 10, d["wheel_goals"][area], key=f"goal_{area}")
+        st.markdown("---")
 
     if st.button("💾 Save Scores", type="primary"):
         save_data(d)
